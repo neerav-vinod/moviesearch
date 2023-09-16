@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+          <div class="col-10 col-sm-8 col-lg-6">
+            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpaperaccess.com%2Ffull%2F4839516.jpg&f=1&nofb=1&ipt=c990ebdd38e85d5c2e1fcb8f6afe32fd65875a4ac981d0439dc2f5cf8349ac14&ipo=images" alt="Bootstrap Themes" width="100%"  loading="lazy">
+          </div>
+          <div class="col-lg-6">
+            <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Movie Finder</h1>
+            <p class="lead">Discover the perfect movie for every mood with our movie finder website. Whether you're in the mood for heartwarming romance, spine-tingling suspense, laugh-out-loud comedy, or epic adventures, our user-friendly platform helps you navigate the cinematic universe effortlessly. Explore personalized recommendations, browse curated lists, and access detailed information about films, including ratings, reviews, and trailers. Say goodbye to movie night dilemmas and hello to an endless stream of entertainment options, all at your fingertips</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <input type="text" class="form-control" placeholder="Enter the Movie Name" id="moviename">
+              <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" onclick="search()">Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container align-items-center border rounded-2 mb-5" id="result" >
+      </div>
+
+    <script>
+        function search(){
+            var apikey="b39ca438";
+            movie=moviename.value;
+
+            fetch(`https://www.omdbapi.com/?apikey=${apikey}&t=${movie}`)
+            .then(data=>data.json())
+            .then(moviedetails=>displaydetails(moviedetails))
+            .catch(error=>alert("Cannot find the movie"))
+        }
+
+        function displaydetails(moviedetails){
+            var name=moviedetails.Title;
+            var genre=moviedetails.Genre;
+            var release=moviedetails.Released;
+            var plot=moviedetails.Plot;
+            var image=moviedetails.Poster;
+            var rating=moviedetails.imdbRating;
+            var runtime=moviedetails.Runtime;
+            var director=moviedetails.Director;
+            var writer=moviedetails.Writer;
+            var actors=moviedetails.Actors;
+           
+
+            htmldata=` <img src="${image}" alt="no image" width="300px" height="400px" style="float: left; margin: 10px;">
+        <h1 class="text mt-4">${name}</h1>
+        <p>${plot}<p>
+        <p><span class="text fw-bold">Released:</span> ${release}</p>
+        <p><span class="text fw-bold">Runtime: </span> ${runtime}</p>
+        <p><span class="text fw-bold">Rating: </span> <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1000logos.net%2Fwp-content%2Fuploads%2F2023%2F01%2FIMDb-logo.png&f=1&nofb=1&ipt=cb2e1208866ec1729701ead363676018c2be3963bceff0091e7aa0db8b8fca54&ipo=images" alt="" width="25px"> ${rating}</p>
+        <p><span class="text fw-bold">Genre: </span> ${genre}</p>
+        <p><span class="text fw-bold">Director: </span> ${director}</p>
+        <p><span class="text fw-bold">Writer: </span> ${writer}</p>
+        <p><span class="text fw-bold">Actors: </span> ${actors}</p>
+        `
+
+        result.innerHTML=htmldata;
+        }
+    </script>
+</body>
+</html>
